@@ -49,6 +49,8 @@
   </div>
   <footer>
     Created by Aamaruvi Yogamani and inspired by the original Wordle game.
+    <br />
+    Idea by Aarush Magic.
   </footer>
 </main>
 
@@ -73,12 +75,28 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    padding: 0.4em;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8em;
+    margin: 0 auto;
+    padding: 0.4em 0;
   }
+
   #answer-grid {
     display: grid;
     margin: 0 auto;
-    width: 30em;
+    width: 40em;
     grid-template: repeat(5, 4em) / auto;
+  }
+
+  @media (max-width: 680px) {
+    #answer-grid {
+      width: 22em;
+      grid-template: repeat(5, 3.5em) / auto;
+    }
+
+    footer {
+      font-size: 0.6em;
+    }
   }
 </style>

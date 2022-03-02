@@ -1,16 +1,14 @@
 <script>
-  /* import { attempts, latestGuess } from "./store.js"; */
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, afterUpdate } from "svelte";
 
   export let enabled;
   export let hint;
-  let guess = "";
+  let guess;
 
   const dispatch = createEventDispatcher();
 
   const keydown = (e) => {
     if (enabled && e.keyCode === 13) {
-      console.log("enter");
       dispatch("guess", e.target.value.toLowerCase());
     }
   };
@@ -28,16 +26,29 @@
       return "light-yellow";
     }
   };
+
+  let el;
+
+  afterUpdate(() => {
+    if (enabled) {
+      el.focus();
+    }
+  });
 </script>
 
 <main>
   <input
+    autocomplete="off"
+    autocorrect="off"
+    autocapitalize="off"
+    spellcheck="false"
     bind:value={guess}
     type="text"
     disabled={!enabled}
     placeholder={enabled ? "Enter your guess" : ""}
     class="answer-input"
     on:keydown={keydown}
+    bind:this={el}
   />
   <div class={`hint-bg ${distanceToColor(hint)}`}>
     {#if hint > 0}
@@ -55,6 +66,12 @@
   input {
     margin: 0.2em;
     font-size: 2em;
+  }
+
+  @media (max-width: 680px) {
+    input {
+      font-size: 1.2em;
+    }
   }
 
   .hint-bg {
