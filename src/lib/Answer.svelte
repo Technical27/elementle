@@ -7,9 +7,10 @@
 
   const dispatch = createEventDispatcher();
 
+  let el;
   const keydown = (e) => {
     if (enabled && e.keyCode === 13) {
-      dispatch("guess", e.target.value.toLowerCase());
+      dispatch("guess", el.value.toLowerCase());
     }
   };
 
@@ -27,11 +28,16 @@
     }
   };
 
-  let el;
-
+  let updated = false;
   afterUpdate(() => {
-    if (enabled) {
-      el.focus();
+    if (updated) {
+      if (enabled) {
+        el.focus();
+      } else {
+        el.blur();
+      }
+    } else {
+      updated = true;
     }
   });
 </script>
