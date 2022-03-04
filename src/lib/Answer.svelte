@@ -84,12 +84,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .answer-input,
-  .hint-bg {
+    margin: 0.5em;
     padding: 0.1em;
-    margin: 0.3em;
   }
 
   .hint {
