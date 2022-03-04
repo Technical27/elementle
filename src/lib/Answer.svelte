@@ -3,14 +3,14 @@
 
   export let enabled;
   export let hint;
-  let guess;
+  export let value;
 
   const dispatch = createEventDispatcher();
 
   let el;
   const keydown = (e) => {
     if (enabled && e.keyCode === 13) {
-      dispatch("guess", el.value.toLowerCase());
+      dispatch("guess", value.toLowerCase());
     }
   };
 
@@ -48,7 +48,7 @@
     autocorrect="off"
     autocapitalize="off"
     spellcheck="false"
-    bind:value={guess}
+    bind:value
     type="text"
     disabled={!enabled}
     placeholder={enabled ? "Enter your guess" : ""}
@@ -66,7 +66,7 @@
 <style>
   main {
     display: grid;
-    grid-template: 100% / 80% 20%;
+    grid: 100% / 80% 20%;
   }
 
   input {
@@ -81,11 +81,15 @@
   }
 
   .hint-bg {
-    margin: 0.5em;
-    padding: 0.1em;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .answer-input,
+  .hint-bg {
+    padding: 0.1em;
+    margin: 0.3em;
   }
 
   .hint {

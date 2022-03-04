@@ -15,22 +15,44 @@
     ) % 117;
   const currentIndex = order[currentDay];
 
-  let currentAttempt = 0;
+  let currentAttempt;
+  let tableHints;
+  let answers;
 
-  let tableHints = new Array(118).fill(0);
-  let previousGuesses = [];
+  if (
+    localStorage.getItem("currentAttempt") !== null &&
+    localStorage.getItem("tableHints") !== null &&
+    localStorage.getItem("answers") !== null
+  ) {
+    currentAttempt = Number.parseInt(localStorage.getItem("currentAttempt"));
+    tableHints = JSON.parse(localStorage.getItem("tableHints"));
+    answers = JSON.parse(localStorage.getItem("answers"));
+  } else {
+    currentAttempt = 0;
+    tableHints = new Array(118).fill(0);
+    answers = [
+      { id: 0, hint: 0, value: "" },
+      { id: 1, hint: 0, value: "" },
+      { id: 2, hint: 0, value: "" },
+      { id: 3, hint: 0, value: "" },
+      { id: 4, hint: 0, value: "" },
+    ];
+  }
 
-  let answers = [
-    { id: 0, hint: 0 },
-    { id: 1, hint: 0 },
-    { id: 2, hint: 0 },
-    { id: 3, hint: 0 },
-    { id: 4, hint: 0 },
-  ];
+  $: {
+    localStorage.setItem("currentAttempt", currentAttempt.toString());
+    localStorage.setItem("tableHints", JSON.stringify(tableHints));
+    localStorage.setItem("answers", JSON.stringify(answers));
+  }
 
   const guess = (m) => {
     const guess = m.detail;
-    if (previousGuesses.indexOf(guess) !== -1) return;
+    if (
+      answers.findIndex(
+        (x) => x.value.toLowerCase() === guess && currentAttempt !== x.id
+      ) !== -1
+    )
+      return;
 
     const i = words.findIndex((x) => guess === x.toLowerCase());
     if (i === -1) return;
@@ -40,7 +62,6 @@
       tableHints[i] = -1;
       currentAttempt = 5;
     } else {
-      previousGuesses.push(guess);
       const hint = i > currentIndex ? i - currentIndex : currentIndex - i;
       // Put a hint by the current guess
       answers[currentAttempt].hint = hint;
@@ -60,6 +81,7 @@
         <Answer
           enabled={currentAttempt == answer.id}
           on:guess={guess}
+          bind:value={answer.value}
           hint={answer.hint}
         />
       {/each}
@@ -87,7 +109,6 @@
   }
 
   main {
-    text-align: center;
     display: flex;
     height: 100%;
     flex-flow: column nowrap;
@@ -97,6 +118,10 @@
 
   main > div {
     margin: 0 auto;
+  }
+
+  h1 {
+    text-align: center;
   }
 
   footer {
@@ -110,13 +135,13 @@
   #answer-grid {
     display: grid;
     width: 40em;
-    grid-template: repeat(5, 4em) / auto;
+    grid: repeat(5, 4em) / auto;
   }
 
   @media (max-width: 680px) {
     #answer-grid {
       width: 22em;
-      grid-template: repeat(5, 3.5em) / auto;
+      grid: repeat(5, 3.5em) / auto;
     }
 
     footer {
