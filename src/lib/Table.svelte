@@ -1094,6 +1094,12 @@
 </main>
 
 <style>
+   main {
+      /* WHY DOES A SVG ALIGN WITH THE TEXT??????
+         WHO KNOWS THE WEB IS A PILE OF GARBAGE ANYWAY */
+      text-align: center;
+   }
+
    #table {
       margin: 1em;
    }
