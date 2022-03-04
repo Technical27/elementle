@@ -17,9 +17,16 @@
 
   let currentAttempt = 0;
 
-  let answerHints = new Array(5).fill(0);
   let tableHints = new Array(118).fill(0);
   let previousGuesses = [];
+
+  let answers = [
+    { id: 0, hint: 0 },
+    { id: 1, hint: 0 },
+    { id: 2, hint: 0 },
+    { id: 3, hint: 0 },
+    { id: 4, hint: 0 },
+  ];
 
   const guess = (m) => {
     const guess = m.detail;
@@ -29,14 +36,14 @@
     if (i === -1) return;
 
     if (i === currentIndex) {
-      answerHints[currentAttempt] = -1;
+      answers[currentAttempt].hint = -1;
       tableHints[i] = -1;
       currentAttempt = 5;
     } else {
       previousGuesses.push(guess);
       const hint = i > currentIndex ? i - currentIndex : currentIndex - i;
       // Put a hint by the current guess
-      answerHints[currentAttempt] = hint;
+      answers[currentAttempt].hint = hint;
       // Put a hint on the periodic table
       tableHints[i] = hint;
       currentAttempt++;
@@ -49,31 +56,13 @@
     <h1>Elementle</h1>
     <Table hints={tableHints} />
     <div id="answer-grid">
-      <Answer
-        enabled={currentAttempt === 0}
-        on:guess={guess}
-        hint={answerHints[0]}
-      />
-      <Answer
-        enabled={currentAttempt === 1}
-        on:guess={guess}
-        hint={answerHints[1]}
-      />
-      <Answer
-        enabled={currentAttempt === 2}
-        on:guess={guess}
-        hint={answerHints[2]}
-      />
-      <Answer
-        enabled={currentAttempt === 3}
-        on:guess={guess}
-        hint={answerHints[3]}
-      />
-      <Answer
-        enabled={currentAttempt === 4}
-        on:guess={guess}
-        hint={answerHints[4]}
-      />
+      {#each answers as answer (answer.id)}
+        <Answer
+          enabled={currentAttempt == answer.id}
+          on:guess={guess}
+          hint={answer.hint}
+        />
+      {/each}
     </div>
   </div>
   <footer>
