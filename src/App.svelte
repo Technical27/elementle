@@ -54,7 +54,7 @@
     )
       return;
 
-    const i = words.findIndex((x) => guess === x.toLowerCase());
+    const i = words.findIndex((x) => guess === x);
     if (i === -1) return;
 
     if (i === currentIndex) {
