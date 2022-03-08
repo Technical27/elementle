@@ -22,7 +22,9 @@
   if (
     localStorage.getItem("currentAttempt") !== null &&
     localStorage.getItem("tableHints") !== null &&
-    localStorage.getItem("answers") !== null
+    localStorage.getItem("answers") !== null &&
+    localStorage.getItem("lastIndex") !== null &&
+    Number.parseInt(localStorage.getItem("lastIndex")) === currentIndex
   ) {
     currentAttempt = Number.parseInt(localStorage.getItem("currentAttempt"));
     tableHints = JSON.parse(localStorage.getItem("tableHints"));
@@ -37,6 +39,8 @@
       { id: 3, hint: 0, value: "" },
       { id: 4, hint: 0, value: "" },
     ];
+
+    localStorage.setItem("lastIndex", currentIndex.toString());
   }
 
   $: {
