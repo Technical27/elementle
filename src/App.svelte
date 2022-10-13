@@ -8,7 +8,7 @@
   // If we forget to change the order, it will just loop
   const currentDay =
     Math.floor(
-      DateTime.fromObject({ year: 2022, month: 2, day: 28 })
+      DateTime.fromObject({ year: 2022, month: 10, day: 12 })
         .diffNow()
         .negate()
         .as("days")
