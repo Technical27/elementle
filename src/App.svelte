@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import words from "./assets/list.json";
   import order from "./assets/order.json";
   import { DateTime } from "luxon";
@@ -15,9 +15,9 @@
     ) % 117;
   const currentIndex = order[currentDay];
 
-  let currentAttempt;
-  let tableHints;
-  let answers;
+  let currentAttempt: number;
+  let tableHints: Array<number>;
+  let answers: Array<{ id: number; hint: number; value: string }>;
 
   if (
     localStorage.getItem("currentAttempt") !== null &&
@@ -43,11 +43,9 @@
     localStorage.setItem("lastIndex", currentIndex.toString());
   }
 
-  $: {
-    localStorage.setItem("currentAttempt", currentAttempt.toString());
-    localStorage.setItem("tableHints", JSON.stringify(tableHints));
-    localStorage.setItem("answers", JSON.stringify(answers));
-  }
+  $: localStorage.setItem("currentAttempt", currentAttempt.toString());
+  $: localStorage.setItem("tableHints", JSON.stringify(tableHints));
+  $: localStorage.setItem("answers", JSON.stringify(answers));
 
   const guess = (m) => {
     const guess = m.detail;

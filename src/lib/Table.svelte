@@ -1,7 +1,7 @@
-<script>
-   export let hints;
+<script lang="ts">
+   export let hints: Array<number>;
 
-   const hintToColor = (d) => {
+   const hintToColor = (d: number) => {
       if (d === 0) {
          return "none";
       } else if (d === -1) {

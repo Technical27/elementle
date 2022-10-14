@@ -1,20 +1,20 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher, afterUpdate } from "svelte";
 
-  export let enabled;
-  export let hint;
-  export let value;
+  export let enabled: boolean;
+  export let hint: number;
+  export let value: string;
 
   const dispatch = createEventDispatcher();
 
-  let el;
-  const keydown = (e) => {
-    if (enabled && e.keyCode === 13) {
+  let el: HTMLInputElement;
+  const keydown = (e: KeyboardEvent) => {
+    if (enabled && !e.repeat && e.key === "Enter") {
       dispatch("guess", value.toLowerCase());
     }
   };
 
-  const distanceToColor = (d) => {
+  const distanceToColor = (d: number): string => {
     if (d === 0) {
       return "grey";
     } else if (d === -1) {
